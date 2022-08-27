@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "quintaldoanibal-95de3"
+  },
+  "targets": {
+    "quintaldoanibal-95de3": {
+      "hosting": {
+        "anibal": [
+          "quintaldoanibal-95de3"
+        ]
+      }
+    }
+  }
+}

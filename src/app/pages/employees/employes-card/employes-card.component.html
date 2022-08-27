@@ -1,0 +1,30 @@
+<po-widget
+  class="po-sm-12 po-md-4 po-lg-4 po-mt-1"
+  [p-height]="300"
+  p-title="{{ employee.name }}"
+  p-primary-label="Editar"
+  p-secondary-label="Apagar"
+>
+  <po-avatar class="po-md-4" p-size="lg" [p-src]="employee.avatar"> </po-avatar>
+
+  <div class="po-md-8">
+    <po-info
+      p-label="Nome"
+      p-value="{{ employee.name }}"
+      [p-orientation]="poInfoOrientation"
+    >
+    </po-info>
+    <po-info
+      p-label="E-mail"
+      p-value="{{ employee.email }}"
+      [p-orientation]="poInfoOrientation"
+    >
+    </po-info>
+    <po-info
+      p-label="Telefone"
+      p-value="{{ employee.phone }}"
+      [p-orientation]="poInfoOrientation"
+    >
+    </po-info>
+  </div>
+</po-widget>

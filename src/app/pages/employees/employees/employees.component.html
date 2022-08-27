@@ -1,0 +1,19 @@
+<po-page-default p-title="Cadastro de Funcionários" [p-actions]="actions">
+  <form [formGroup]="reactiveForm">
+    <div class="po-row">
+      <po-input
+        formControlName="pesquisa"
+        class="po-lg-3 po-xl-3 po-offset-lg-9 po-offset-xl-9"
+        p-icon="po-icon-search"
+        p-label="Informe parte do CPF"
+        p-placeholder="Pesquise pelo CPF"
+      ></po-input>
+    </div>
+  </form>
+
+  <div class='po-mt-1' *ngFor="let employee of employeesDisplayed">
+    <app-employes-card
+    [employee]="employee"
+    ></app-employes-card>
+  </div>
+</po-page-default>
