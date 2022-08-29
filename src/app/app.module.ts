@@ -12,6 +12,8 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideStorage,getStorage } from '@angular/fire/storage';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     PoTemplatesModule,
     LoginModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage()),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],

@@ -11,9 +11,27 @@
     </div>
   </form>
 
-  <div class='po-mt-1' *ngFor="let employee of employeesDisplayed">
-    <app-employes-card
-    [employee]="employee"
-    ></app-employes-card>
+  <po-loading-overlay
+    [p-screen-lock]="true"
+    [hidden]="!isLoading"
+    p-text="Carregando"
+  >
+  </po-loading-overlay>
+
+  <div *ngIf="!isLoading">
+    <div class="po-mt-1" *ngFor="let employee of employeesDisplayed">
+      <app-employes-card [employee]="employee"></app-employes-card>
+    </div>
   </div>
 </po-page-default>
+
+<po-modal
+  p-title="Inclusão"
+  [p-hide-close]="true"
+  p-click-out="false"
+  [p-primary-action]="close"
+>
+  <app-employee-form
+    (registroSalvo)="recebeFormulario()"
+  ></app-employee-form>
+</po-modal>

@@ -1,60 +1,68 @@
+<input
+  type="file"
+  accept="image/*"
+  style="display: none"
+  (change)="uploadImage($event)"
+  #file
+/>
+
+<po-loading-overlay
+  [p-screen-lock]="true"
+  [hidden]="!isLoading"
+  p-text="Carregando"
+>
+</po-loading-overlay>
+
 <form [formGroup]="reactiveForm">
   <div class="po-row">
     <po-input
-      class="po-md-6"
-      formControlName="cpf"
-      p-clean
-      p-mask="999.999.999-99"
-      p-icon="po-icon-user"
-      p-label="CPF"
-      p-placeholder="Informe o CPF"
-      p-required="true"
-      p-error-pattern="CPF inválido"
-    >
-    </po-input>
-    <po-password
-      class="po-md-6"
-      formControlName="senha"
-      name="senha"
-      p-label="Senha"
-      p-placeholder="Informe uma nova senha"
-      p-error-pattern="A senha deve possuir ao menos 6 dígitos"
-    >
-    </po-password>
-  </div>
-  <div class="po-row">
-    <po-datepicker
       class="po-md-12"
-      formControlName="dataNascimento"
-      name="dataNascimento"
-      p-label="Data de Nascimento"
-      p-error-pattern="Somente maiores de 18 (dezoito) anos poderão ser titular de Cadastro."
-      p-placeholder="Selecione a data de Nascimento"
-    >
-    </po-datepicker>
-  </div>
-  <div class="po-row">
-    <po-input
-      class="po-md-12"
-      formControlName="cartaoCidadao"
+      formControlName="name"
       p-clean
       p-icon="po-icon-users"
-      p-label="Número Cartão Cidadão"
-      p-placeholder="Informe o Número do Cartão Cidadão"
+      p-label="Nome"
+      p-placeholder="Informe um Nome"
+      p-required="true"
     >
     </po-input>
+    <po-email
+      class="po-md-6"
+      formControlName="email"
+      p-clean
+      p-label="e-mail"
+      p-placeholder="Informe um email"
+      p-required="true"
+      p-error-pattern="email inválido"
+      p-required="true"
+    >
+    </po-email>
   </div>
+  <po-input
+    formControlName="phone"
+    class="po-lg-3"
+    p-mask="(99) 99999?-9999"
+    p-label="Telefone Titular"
+    p-pattern="\d{10,11}"
+    p-error-pattern="Telefone Inválido"
+    p-placeholder="Número do Telefone"
+    p-icon="po-icon-telephone"
+    p-required="true"
+  ></po-input>
   <div class="po-row">
     <po-button
-      p-label="Confirmar Novo Cadastro"
-      class="
-        po-sm-12 po-lg-6 po-xl-6 po-mt-2 po-offset-lg-3 po-offset-xl-3
-      "
-
+      p-label="Selecionar Foto"
+      class="po-sm-12 po-lg-6 po-xl-6 po-mt-2"
+      (p-click)="file.click()"
     >
-    <!-- [p-disabled]="!botaoAtivado"
-    [p-loading]="botaoCarregando"
-    (p-click)="gravaUsuario()" -->
+    </po-button>
+    <po-tag class="po-sm-12 po-lg-6 po-xl-6 po-mt-2" [p-value]="pictureStatus" [p-color]="pictureStatusColor"> </po-tag>
+
+    <po-button
+      p-label="Confirmar Manutenção"
+      class="po-sm-12 po-lg-6 po-xl-6 po-mt-2"
+      [p-disabled]="!this.reactiveForm.valid"
+      (p-click)="inputEmployee()"
+    >
     </po-button>
   </div>
 </form>

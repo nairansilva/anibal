@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(usuario:any): void {
-    console.log(usuario);
     this.loginService.login();
 
   }
