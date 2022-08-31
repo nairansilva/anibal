@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { EmployeesService } from './../shared/employees.service';
 import { EmployeesInterface } from './../shared/employees.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -17,6 +18,7 @@ export class EmployesCardComponent implements OnInit {
   urlPicture = '';
   widgetHeight = 250;
   activeEditForm = false;
+  viewForm = false;
   isLoading = false;
   isMobile = false;
   poInfoOrientation: PoInfoOrientation = PoInfoOrientation.Horizontal
@@ -29,21 +31,32 @@ export class EmployesCardComponent implements OnInit {
     danger: true
   };
 
-  constructor(private employeesService: EmployeesService, private poNotificationService: PoNotificationService, private deviceDetectorService:DeviceDetectorService) {
+  constructor(private employeesService: EmployeesService
+    , private poNotificationService: PoNotificationService
+    , private deviceDetectorService:DeviceDetectorService
+    , private router:Router) {
     this.isMobile = this.deviceDetectorService.isMobile();
     this.isMobile ? this.widgetHeight = 350 : this.widgetHeight = 280;
   }
 
   ngOnInit(): void {
+    this.getAvatarImage()
+  }
+
+  getAvatarImage(): void {
     this.employeesService.getImage(this.employee.id, '').then(
       res => {
         const imgProfile = res.items.filter(item => item.name.includes(this.employee.id))
         if (imgProfile.length > 0) {
           const url = getDownloadURL(imgProfile[0]);
-          url.then(res => { this.urlPicture = res; console.log("imagem: ", this.urlPicture) })
+          url.then(res => { this.urlPicture = res })
         }
       })
       .catch(error => console.error(error))
+  }
+
+  viewEmployee(){
+
   }
 
   async deleteEmployee() {
@@ -78,11 +91,18 @@ export class EmployesCardComponent implements OnInit {
 
   editeEmployee():void {
     this.activeEditForm = true;
+    this.router.navigate([`/employees/form/${this.employee.id}`])
+    this.poModal.open()
+  }
+
+  openForm():void {
+    this.viewForm = true;
     this.poModal.open()
   }
 
   receiveConfirmationForm(): void{
     this.activeEditForm = false;
+    this.viewForm = false
     this.poModal.close();
   }
 

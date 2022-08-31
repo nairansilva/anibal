@@ -1,7 +1,8 @@
 import { LoginService } from './shared/login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PoPageLoginLiterals } from '@po-ui/ng-templates';
+import { PoPageLogin, PoPageLoginLiterals } from '@po-ui/ng-templates';
+import { PoNotificationService } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,10 @@ import { PoPageLoginLiterals } from '@po-ui/ng-templates';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  literals:PoPageLoginLiterals;
-  constructor(private router:Router, private loginService:LoginService) {
+  literals: PoPageLoginLiterals;
+  inProcess = false;
+
+  constructor(private router: Router, private loginService: LoginService, private poNotificationService: PoNotificationService) {
     this.literals = {
       welcome: `Bem Vindo`,
       loginPlaceholder: 'Informe o seu Usuário',
@@ -23,8 +26,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(usuario:any): void {
-    this.loginService.login();
+  login(usuario: PoPageLogin): void {
+    this.inProcess = true
+    this.loginService.login(usuario).then(res => {
+      this.loginService.setLogged(true);
+      this.router.navigate(['/']);
+    })
+      .catch(error => {
+        this.poNotificationService.error("Erro ao realizar login: " + error);
+      }).finally(
+        () => this.inProcess = false
+      )
 
   }
 

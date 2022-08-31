@@ -1,6 +1,7 @@
+import { Router } from '@angular/router';
 import { EmployeesService } from './../shared/employees.service';
 import { EmployeesInterface } from './../shared/employees.model';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PoModalAction, PoModalComponent, PoTableAction, PoUploadComponent } from '@po-ui/ng-components';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -11,7 +12,7 @@ import { debounceTime, finalize } from 'rxjs/operators';
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.css']
 })
-export class EmployeesComponent implements OnInit {
+export class EmployeesComponent implements OnInit, OnDestroy {
 
   @Input() value: any;
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
@@ -30,9 +31,9 @@ export class EmployeesComponent implements OnInit {
 
   resume: string;
   isLoading: boolean = true;
+  includeEmployee = false;
 
   private subscription: Subscription;
-  private includeEmployee = false;
 
   public actions: Array<PoTableAction> = [
     {
@@ -42,9 +43,12 @@ export class EmployeesComponent implements OnInit {
     }
 
   ];
-  constructor(private employeesService: EmployeesService, private fb: FormBuilder
+  constructor(private employeesService: EmployeesService, private fb: FormBuilder, private router: Router
   ) {
     this.criaFormularioPesquisar();
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 
@@ -86,6 +90,7 @@ export class EmployeesComponent implements OnInit {
 
   newEmployee(): void {
     this.includeEmployee = true;
+    this.router.navigate(['/employees/form'])
     this.poModal.open();
   }
 

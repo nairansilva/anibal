@@ -1,0 +1,44 @@
+<po-loading-overlay
+  [p-screen-lock]="true"
+  [hidden]="!isLoading"
+  p-text="Carregando"
+>
+</po-loading-overlay>
+
+<input
+  type="file"
+  accept="image/*"
+  style="display: none"
+  (change)="fileChangeEvent($event)"
+  #inputFile
+/>
+
+<po-avatar
+  p-size="xl"
+  class="po-sm-9 po-offset-sm-3 po-xl-6 po-offset-xl-5 po-lg-6 po-offset-lg-5"
+  p-size="xl"
+  [p-src]="croppedImage"
+  (p-click)="inputFile.click()"
+></po-avatar>
+<div class="cropper-wrapper">
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [cropperStaticWidth] = '144'
+    [cropperStaticHeight]= '144'
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (startCropImage)="startCropImage()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+</div>
+
+<po-button
+  p-label="Confirmar foto"
+  class="po-sm-12 po-lg-12 po-xl-12 po-mt-2"
+  (p-click)="closeModal()"
+>
+</po-button>

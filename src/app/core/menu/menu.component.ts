@@ -1,6 +1,7 @@
+import { LoginService } from './../login/shared/login.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { PoMenuItem } from '@po-ui/ng-components';
+import { PoMenuItem, PoNotificationService } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-menu',
@@ -9,7 +10,7 @@ import { PoMenuItem } from '@po-ui/ng-components';
 })
 export class MenuComponent implements OnInit {
   menus: Array<PoMenuItem>;
-  constructor(private router:Router) { }
+  constructor(private router:Router, private loginService:LoginService, private poNotificationService:PoNotificationService) { }
 
   ngOnInit(): void {
     this.setHomeInfo();
@@ -30,42 +31,24 @@ export class MenuComponent implements OnInit {
         icon: 'po-icon-home',
       },
       {
-        label: 'Funcionários',
-        shortLabel: 'Funcionários',
+        label: 'Colaboradores',
+        shortLabel: 'Colab.',
         action: () => {
           this.router.navigate(['/employees']);
         },
         icon: 'po-icon-users',
       },
       {
-        label: 'Turmas',
-        shortLabel: 'Turmas',
+        label: 'logout',
+        shortLabel: 'logout',
         action: () => {
-          // this.router.navigate(['/intranet/assentamentos']);
-        },
-        icon: 'po-icon-warehouse',
-      },
-      {
-        label: 'Responsáveis',
-        shortLabel: 'Responsáveis',
-        action: () => {
-          // this.router.navigate(['/intranet/assentamentos']);
-        },
-        icon: 'po-icon-warehouse',
-      },
-      {
-        label: 'Alunos',
-        shortLabel: 'Alunos',
-        action: () => {
-          // this.router.navigate(['/intranet/assentamentos']);
-        },
-        icon: 'po-icon-warehouse',
-      },
-      {
-        label: 'Notificações',
-        shortLabel: 'Notificações',
-        action: () => {
-          // this.router.navigate(['/intranet/assentamentos']);
+           this.loginService.logout().then(
+            res => {
+              this.router.navigate(['/login']);
+            }
+           ).catch(
+            error => this.poNotificationService.error("Erro ao realizar logout")
+           );
         },
         icon: 'po-icon-warehouse',
       }

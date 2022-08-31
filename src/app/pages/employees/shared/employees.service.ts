@@ -2,7 +2,7 @@ import { EmployeesInterface } from './employees.model';
 import { mergeMap, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { collection } from '@firebase/firestore';
-import { addDoc, collectionData, deleteDoc, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collectionData, deleteDoc, doc, Firestore, getDoc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL, ListResult, deleteObject } from "@angular/fire/storage";
 
 
@@ -18,6 +18,13 @@ export class EmployeesService {
     const q = query(placeRef,where('name','>=',''))
     return collectionData(q, { idField: 'id',  }).pipe(
     ) as Observable<EmployeesInterface[]>
+  }
+
+  getById(id: string): Promise<any> {
+    const placeRef = doc(this.firestore, 'employees', id)
+
+    return getDoc(placeRef)
+
   }
 
   post(employee:EmployeesInterface) {

@@ -31,7 +31,7 @@
   p-click-out="false"
   [p-primary-action]="close"
 >
-  <app-employee-form
+  <app-employee-form *ngIf="includeEmployee"
     (registroSalvo)="recebeFormulario()"
   ></app-employee-form>
 </po-modal>
