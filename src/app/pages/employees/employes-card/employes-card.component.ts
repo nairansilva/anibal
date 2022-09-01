@@ -1,3 +1,4 @@
+import { StorageService } from './../../../shared/service/storage.service';
 import { Router } from '@angular/router';
 import { EmployeesService } from './../shared/employees.service';
 import { EmployeesInterface } from './../shared/employees.model';
@@ -23,6 +24,8 @@ export class EmployesCardComponent implements OnInit {
   isMobile = false;
   poInfoOrientation: PoInfoOrientation = PoInfoOrientation.Horizontal
 
+  storageEmployee = "employees"
+
   close: PoModalAction = {
     action: () => {
       this.receiveConfirmationForm();
@@ -32,9 +35,10 @@ export class EmployesCardComponent implements OnInit {
   };
 
   constructor(private employeesService: EmployeesService
+    , private storageService: StorageService
     , private poNotificationService: PoNotificationService
-    , private deviceDetectorService:DeviceDetectorService
-    , private router:Router) {
+    , private deviceDetectorService: DeviceDetectorService
+    , private router: Router) {
     this.isMobile = this.deviceDetectorService.isMobile();
     this.isMobile ? this.widgetHeight = 350 : this.widgetHeight = 280;
   }
@@ -44,7 +48,7 @@ export class EmployesCardComponent implements OnInit {
   }
 
   getAvatarImage(): void {
-    this.employeesService.getImage(this.employee.id, '').then(
+    this.storageService.getImage(this.storageEmployee, this.employee.id, '').then(
       res => {
         const imgProfile = res.items.filter(item => item.name.includes(this.employee.id))
         if (imgProfile.length > 0) {
@@ -55,7 +59,7 @@ export class EmployesCardComponent implements OnInit {
       .catch(error => console.error(error))
   }
 
-  viewEmployee(){
+  viewEmployee() {
 
   }
 
@@ -75,8 +79,8 @@ export class EmployesCardComponent implements OnInit {
     }
   }
 
-  deleteAvatar(): void{
-    this.employeesService.deleteAvatar(this.employee.id).then(
+  deleteAvatar(): void {
+    this.storageService.deleteAvatar(this.storageEmployee, this.employee.id).then(
       res => {
         this.isLoading = false;
         this.poNotificationService.success('Registro Deletado com Sucesso');
@@ -89,18 +93,19 @@ export class EmployesCardComponent implements OnInit {
     )
   }
 
-  editeEmployee():void {
+  editeEmployee(): void {
     this.activeEditForm = true;
     this.router.navigate([`/employees/form/${this.employee.id}`])
     this.poModal.open()
   }
 
-  openForm():void {
+  openForm(): void {
+    this.router.navigate([`/employees/form/${this.employee.id}`, { viewForm: true }])
     this.viewForm = true;
     this.poModal.open()
   }
 
-  receiveConfirmationForm(): void{
+  receiveConfirmationForm(): void {
     this.activeEditForm = false;
     this.viewForm = false
     this.poModal.close();

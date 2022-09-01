@@ -1,10 +1,13 @@
-<po-page-edit
+<po-page-default
   [p-breadcrumb]="breadcrumb"
-  [p-disable-submit]="!this.reactiveForm.valid"
+  [p-actions]="actions"
   p-title="Manutenção Colaboradores"
-  (p-save)="inputEmployee()"
-  (p-cancel)="returnEmployees()"
 >
+
+<!-- [p-disable-submit]="!this.reactiveForm.valid"
+p-title="Manutenção Colaboradores"
+(p-save)="inputEmployee()"
+(p-cancel)="returnEmployees()" -->
   <input
     type="file"
     accept="image/*"
@@ -89,4 +92,4 @@
       (pictureSelected)="pictureSelected($event)"
     ></app-pictureEdit>
   </po-modal>
-</po-page-edit>
+</po-page-default>

@@ -42,22 +42,4 @@ export class EmployeesService {
     return deleteDoc(placeRef)
   }
 
-  uploadAvatar(imgFile: any, idImg: string) {
-    const imgRef = ref(this.storage, `employess/${idImg}/${idImg}`)
-
-    return uploadBytes(imgRef, imgFile)
-  }
-
-  getImage(id:string, imgName: string): Promise<ListResult> {
-    const imgRef = ref(this.storage, `/employess/${id}`)
-
-    return listAll(imgRef)
-  }
-
-  deleteAvatar(idImg: string) {
-    const imgRef = ref(this.storage, `employess/${idImg}/${idImg}`)
-
-    return deleteObject(imgRef)
-  }
-
 }

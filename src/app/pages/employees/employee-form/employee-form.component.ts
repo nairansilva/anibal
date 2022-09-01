@@ -1,9 +1,10 @@
+import { StorageService } from './../../../shared/service/storage.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { EmployeesInterface } from './../shared/employees.model';
 import { EmployeesService } from './../shared/employees.service';
 import { Component, EventEmitter, Input, OnInit, Output, SecurityContext, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { PoBreadcrumb, PoBreadcrumbItem, PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoBreadcrumbItem, PoModalAction, PoModalComponent, PoNotificationService, PoPageAction } from '@po-ui/ng-components';
 import { getDownloadURL } from '@angular/fire/storage';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -34,18 +35,29 @@ export class EmployeeFormComponent implements OnInit {
   public avatarPicture: any;
   public id: string | null
   public isMobile = false;
+  public actions: Array<PoPageAction> = [{
+    label: 'Salvar',
+    action: () => this.inputEmployee(),
+    icon: 'po-icon-plus'
+  },
+  ];
 
   private avatarPictureOk = false;
+  private storageEmployee = 'employees'
+
+
 
 
   constructor(private ponotification: PoNotificationService
     , private employeesService: EmployeesService
+    , private storageService: StorageService
     , private route: ActivatedRoute
-    , private deviceDetectorService:DeviceDetectorService
-    , private router:Router) {
+    , private deviceDetectorService: DeviceDetectorService
+    , private router: Router) {
 
     this.isMobile = this.deviceDetectorService.isMobile();
     this.breadcrumb.items = this.breadcrumb.items.concat([{ label: 'Colaboradores', link: '/employees' }])
+    this.viewForm = Boolean(this.route.snapshot.paramMap.get('viewForm'));
     this.id = this.route.snapshot.paramMap.get('id');
 
   }
@@ -55,6 +67,8 @@ export class EmployeeFormComponent implements OnInit {
     if (this.id) {
       this.isLoading = true;
       this.getIdEmployee();
+    } else {
+      this.breadcrumb.items = this.breadcrumb.items.concat([{ label: 'Novo Colaborador', link: '/employees/form' }])
     }
   }
 
@@ -64,10 +78,15 @@ export class EmployeeFormComponent implements OnInit {
     this.employee = doc.data();
     this.employee.id = String(this.id)
     this.breadcrumb.items = this.breadcrumb.items.concat([{ label: this.employee.name, link: '/employees/form' }])
+
+    if (this.viewForm) {
+      this.actions = []
+    }
+
     this.pictureStatus = 'Foto Ok'
     this.pictureStatusColor = "color-08"
     this.editeForm();
-    this.employeesService.getImage(this.employee.id, '').then(
+    this.storageService.getImage(this.storageEmployee, this.employee.id, '').then(
       res => {
         const imgProfile = res.items.filter(item => item.name.includes(this.employee.id))
         if (imgProfile.length > 0) {
@@ -154,7 +173,7 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   updateAvatarImage(id: string): void {
-    this.employeesService.uploadAvatar(this.avatarPicture, id).then(
+    this.storageService.uploadAvatar(this.storageEmployee, this.avatarPicture, id).then(
       res => {
         this.ponotification.success("Registro Atualizado com Sucesso")
         this.reactiveForm.value.pictureOk = true;

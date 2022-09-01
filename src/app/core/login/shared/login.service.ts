@@ -1,7 +1,6 @@
 import { PoNotificationService } from '@po-ui/ng-components';
 import { Router } from '@angular/router';
 import { Injectable } from "@angular/core";
-import { BaseResourceService } from "src/app/shared/service/base-resource.service";
 import { PoPageLogin } from '@po-ui/ng-templates';
 import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
@@ -16,7 +15,9 @@ export class LoginService {
     return this.userLogged;
   }
 
-  setLogged(isValid:boolean): void {
+  setLogged(isValid:boolean, token:any): void {
+    localStorage.setItem('tokenAnibal', String(token.user.accessToken))
+    // console.log(token)
     this.userLogged = isValid;
   }
 
@@ -26,6 +27,7 @@ export class LoginService {
   }
 
   logout(): Promise<any> {
+    localStorage.removeItem('tokenAnibal')
     return signOut(this.auth);
   }
 }

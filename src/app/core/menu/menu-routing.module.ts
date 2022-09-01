@@ -1,8 +1,8 @@
+import { AuthGuard } from './../auth/auth.guard';
 import { MenuComponent } from './menu.component';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "../login/login.component";
-import { AuthGuard } from '../auth/auth.guard';
 import {canActivate, redirectUnauthorizedTo} from '@angular/fire/auth-guard'
 
 const routes: Routes = [

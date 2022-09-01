@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   login(usuario: PoPageLogin): void {
     this.inProcess = true
     this.loginService.login(usuario).then(res => {
-      this.loginService.setLogged(true);
+      this.loginService.setLogged(true, res);
       this.router.navigate(['/']);
     })
       .catch(error => {

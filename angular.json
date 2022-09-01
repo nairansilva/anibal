@@ -20,13 +20,17 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/@po-ui/style/css/po-theme-default.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -88,7 +92,9 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/firebase-messaging-sw.js"
             ],
             "styles": [
               "./node_modules/@po-ui/style/css/po-theme-default.min.css",

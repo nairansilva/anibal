@@ -13,6 +13,7 @@ import { LoginService } from '../login/shared/login.service';
 export class AuthGuard implements CanActivate {
   canActivate(
   ): Observable<boolean> | Promise<boolean> | boolean {
+    console.log("ASDASDASD")
     if (this.loginService.isLogged()) {
       return true;
     }
