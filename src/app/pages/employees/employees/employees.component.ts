@@ -47,6 +47,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   ) {
     this.criaFormularioPesquisar();
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

@@ -22,7 +22,6 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { SplashScreenModule } from './shared/components/splash-screen/splash-screen.module';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

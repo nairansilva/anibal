@@ -1,18 +1,18 @@
-import { StorageService } from './../../../shared/service/storage.service';
+import { StorageService } from '../../../shared/service/storage.service';
 import { Router } from '@angular/router';
-import { EmployeesService } from './../shared/employees.service';
-import { EmployeesInterface } from './../shared/employees.model';
+import { EmployeesService } from '../shared/employees.service';
+import { EmployeesInterface } from '../shared/employees.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PoInfoOrientation, PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
 import { getDownloadURL } from '@angular/fire/storage';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
-  selector: 'app-employes-card',
-  templateUrl: './employes-card.component.html',
-  styleUrls: ['./employes-card.component.css']
+  selector: 'app-employee-card',
+  templateUrl: './employee-card.component.html',
+  styleUrls: ['./employee-card.component.css']
 })
-export class EmployesCardComponent implements OnInit {
+export class EmployeeCardComponent implements OnInit {
   @Input() employee: EmployeesInterface
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
@@ -66,7 +66,7 @@ export class EmployesCardComponent implements OnInit {
   async deleteEmployee() {
     if (window.confirm('Confirma Exclusão?')) {
       this.isLoading = true;
-      await this.employeesService.delete(this.employee).then(
+      await this.employeesService.delete(this.employee.id).then(
         res => {
           this.deleteAvatar()
         }

@@ -1,0 +1,77 @@
+<po-widget
+  class="po-sm-12 po-md-4 po-lg-4 po-mt-1"
+  [p-height]="widgetHeight"
+  p-title="{{ student.name }}"
+  p-primary-label="Editar"
+  p-secondary-label="Apagar"
+  (p-primary-action)="editeEmployee()"
+  (p-secondary-action)="deleteEmployee()"
+>
+  <po-loading-overlay
+    [p-screen-lock]="true"
+    [hidden]="!isLoading"
+    p-text="Carregando"
+  >
+  </po-loading-overlay>
+  <div *ngIf="isMobile; else isDesktop">
+    <div class="po-row">
+      <po-avatar class="po-sm-9 po-offset-sm-3" p-size="xl" [p-src]="urlPicture" (p-click)="openForm()"> </po-avatar>
+    </div>
+    <div class="po-row">
+      <div class="po-sm-12">
+        <po-info
+          p-label="Nome"
+          p-loading="lazy"
+          p-value="{{ student.name }}"
+          [p-orientation]="poInfoOrientation"
+        >
+        </po-info>
+        <po-info
+          p-label="E-mail"
+          p-value="{{ student.email }}"
+          [p-orientation]="poInfoOrientation"
+        >
+        </po-info>
+        <po-info
+          p-label="Telefone"
+          p-value="{{ student.phone }}"
+          [p-orientation]="poInfoOrientation"
+        >
+        </po-info>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #isDesktop>
+    <po-avatar class="po-sm-6 po-offset-sm-3" p-size="xl" [p-src]="urlPicture" (p-click)="openForm()"> </po-avatar>
+
+    <div class="po-sm-6">
+      <po-info
+        p-label="Nome"
+        p-loading="lazy"
+        p-value="{{ student.name }}"
+        [p-orientation]="poInfoOrientation"
+      >
+      </po-info>
+      <po-info
+        p-label="E-mail"
+        p-value="{{ student.email }}"
+        [p-orientation]="poInfoOrientation"
+      >
+      </po-info>
+      <po-info
+        p-label="Telefone"
+        p-value="{{ student.phone | phone}}"
+        [p-orientation]="poInfoOrientation"
+      >
+      </po-info>
+    </div>
+  </ng-template>
+
+</po-widget>
+
+<po-modal p-title="Alteração" [p-hide-close]="true" p-click-out="false"   [p-primary-action]="close">
+  <div *ngIf="activeEditForm || viewForm">
+    <app-student-form [student]="student" (registroSalvo)="receiveConfirmationForm()" [urlPicture]="urlPicture" [viewForm]='viewForm'></app-student-form>
+  </div>
+</po-modal>

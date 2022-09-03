@@ -18,6 +18,11 @@ const routes: Routes = [
       loadChildren: () =>
         import('../../pages/employees/employees.module').then((m) => m.EmployeesModule), ...canActivate(() => redirectUnauthorizedTo(['/login']))
     },
+    {
+      path: 'students',
+      loadChildren: () =>
+        import('../../pages/students/students.module').then((m) => m.StudentsModule), ...canActivate(() => redirectUnauthorizedTo(['/login']))
+    },
   ]}
 ];
 

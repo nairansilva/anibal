@@ -1,4 +1,4 @@
-<po-page-default p-title="Cadastro de Colaboradores" [p-actions]="actions">
+<po-page-default p-title="Cadastro de Alunos" [p-actions]="actions">
   <form [formGroup]="reactiveForm">
     <div class="po-row">
       <po-input
@@ -19,8 +19,8 @@
   </po-loading-overlay>
 
   <div *ngIf="!isLoading">
-    <div class="po-mt-1" *ngFor="let employee of employeesDisplayed">
-      <app-employee-card [employee]="employee"></app-employee-card>
+    <div class="po-mt-1" *ngFor="let students of studentsDisplayed">
+      <app-student-card [student]="students"></app-student-card>
     </div>
   </div>
 </po-page-default>
@@ -31,7 +31,7 @@
   p-click-out="false"
   [p-primary-action]="close"
 >
-  <app-employee-form *ngIf="includeEmployee"
-    (registroSalvo)="recebeFormulario()"
-  ></app-employee-form>
+  <app-student-form *ngIf="includeStudent"
+    (registroSalvo)="formReceive()"
+  ></app-student-form>
 </po-modal>
