@@ -18,9 +18,4 @@
   >
   </po-loading-overlay>
 
-  <div *ngIf="!isLoading">
-    <div class="po-mt-1" *ngFor="let employee of employeesDisplayed">
-      <app-employee-card [employee]="employee"></app-employee-card>
-    </div>
-  </div>
 </po-page-default>

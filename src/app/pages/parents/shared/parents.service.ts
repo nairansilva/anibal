@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
-import { StudentInterface } from './student.model';
+import { Firestore } from 'firebase/firestore';
 import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
-
+import { ParentsInterface } from './parents.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService extends BaseResourceFirebaseService<StudentInterface>{
+export class ParentsService  extends BaseResourceFirebaseService<ParentsInterface>{
 
   constructor(protected override firestore: Firestore) {
-    super('studants', firestore)
+    super('', firestore)
   }
 }

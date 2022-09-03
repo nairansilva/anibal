@@ -47,6 +47,14 @@ export class MenuComponent implements OnInit {
         icon: 'po-icon-users',
       },
       {
+        label: 'Responsáveis',
+        shortLabel: 'Resp.',
+        action: () => {
+          this.router.navigate(['/parents']);
+        },
+        icon: 'po-icon-users',
+      },
+      {
         label: 'logout',
         shortLabel: 'logout',
         action: () => {

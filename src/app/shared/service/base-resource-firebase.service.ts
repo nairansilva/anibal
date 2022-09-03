@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, query, updateDoc, where } from 'firebase/firestore';
-import { collectionData } from '@angular/fire/firestore';
 import { Inject, Injector } from '@angular/core';
+import { collectionData } from '@angular/fire/firestore';
 
 
 export abstract class BaseResourceFirebaseService<T> {
 
-  protected firestore: Firestore
+  // protected firestore: Firestore
 
-  constructor(protected Injector: Injector, @Inject('collectionName') protected collectionName: string) {
-    this.firestore = this.Injector.get(Firestore);
+  constructor(protected collectionName: string, protected firestore:Firestore) {
+    // this.firestore = this.Injector.get(Firestore);
   }
 
   getAll(filter: string = ''): Observable<T[]> {

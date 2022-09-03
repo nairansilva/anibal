@@ -1,11 +1,11 @@
 <po-widget
-  class="po-sm-12 po-md-4 po-lg-4 po-mt-1 "
+  class="po-sm-12 po-md-4 po-lg-4 po-mt-1"
   [p-height]="widgetHeight"
-  p-title="{{ employee.name }}"
+  p-title="{{ parent.name }}"
   p-primary-label="Editar"
   p-secondary-label="Apagar"
-  (p-primary-action)="editeEmployee()"
-  (p-secondary-action)="deleteEmployee()"
+  (p-primary-action)="editeParent()"
+  (p-secondary-action)="deleteParent()"
 >
   <po-loading-overlay
     [p-screen-lock]="true"
@@ -15,26 +15,32 @@
   </po-loading-overlay>
   <div *ngIf="isMobile; else isDesktop">
     <div class="po-row">
-      <po-avatar class="po-sm-9 po-offset-sm-3" p-size="xl" [p-src]="urlPicture" (p-click)="openForm()"> </po-avatar>
+      <po-avatar
+        class="po-sm-9 po-offset-sm-3"
+        p-size="xl"
+        [p-src]="urlPicture"
+        (p-click)="openForm()"
+      >
+      </po-avatar>
     </div>
     <div class="po-row">
       <div class="po-sm-12">
         <po-info
           p-label="Nome"
           p-loading="lazy"
-          p-value="{{ employee.name }}"
+          p-value="{{ parent.name }}"
           [p-orientation]="poInfoOrientation"
         >
         </po-info>
         <po-info
           p-label="E-mail"
-          p-value="{{ employee.email }}"
+          p-value="{{ parent.email }}"
           [p-orientation]="poInfoOrientation"
         >
         </po-info>
         <po-info
           p-label="Telefone"
-          p-value="{{ employee.phone }}"
+          p-value="{{ parent.phone }}"
           [p-orientation]="poInfoOrientation"
         >
         </po-info>
@@ -43,29 +49,34 @@
   </div>
 
   <ng-template #isDesktop>
-    <po-avatar class="po-sm-6 po-offset-sm-3" p-size="xl" [p-src]="urlPicture" (p-click)="openForm()"> </po-avatar>
+    <po-avatar
+      class="po-sm-6 po-offset-sm-3"
+      p-size="xl"
+      [p-src]="urlPicture"
+      (p-click)="openForm()"
+    >
+    </po-avatar>
 
     <div class="po-sm-6">
       <po-info
         p-label="Nome"
         p-loading="lazy"
-        p-value="{{ employee.name }}"
+        p-value="{{ parent.name }}"
         [p-orientation]="poInfoOrientation"
       >
       </po-info>
       <po-info
         p-label="E-mail"
-        p-value="{{ employee.email }}"
+        p-value="{{ parent.email }}"
         [p-orientation]="poInfoOrientation"
       >
       </po-info>
       <po-info
         p-label="Telefone"
-        p-value="{{ employee.phone }}"
+        p-value="{{ parent.phone | phone }}"
         [p-orientation]="poInfoOrientation"
       >
       </po-info>
     </div>
   </ng-template>
-
 </po-widget>

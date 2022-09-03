@@ -1,4 +1,3 @@
-import { AuthGuard } from './../auth/auth.guard';
 import { MenuComponent } from './menu.component';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
@@ -23,6 +22,11 @@ const routes: Routes = [
       loadChildren: () =>
         import('../../pages/students/students.module').then((m) => m.StudentsModule), ...canActivate(() => redirectUnauthorizedTo(['/login']))
     },
+    {
+      path: 'parents',
+      loadChildren: () =>
+        import('../../pages/parents/parents.module').then((m) => m.ParentsModule), ...canActivate(() => redirectUnauthorizedTo(['/login']))
+    }
   ]}
 ];
 

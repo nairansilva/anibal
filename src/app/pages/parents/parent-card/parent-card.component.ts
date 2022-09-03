@@ -1,20 +1,20 @@
+import { ParentsService } from './../shared/parents.service';
+import { ParentsInterface } from './../shared/parents.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoInfoOrientation, PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
 import { getDownloadURL } from 'firebase/storage';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { StorageService } from 'src/app/shared/service/storage.service';
-import { StudentInterface } from '../shared/student.model';
-import { StudentService } from '../shared/student.service';
 
 @Component({
-  selector: 'app-student-card',
-  templateUrl: './student-card.component.html',
-  styleUrls: ['./student-card.component.css']
+  selector: 'app-parent-card',
+  templateUrl: './parent-card.component.html',
+  styleUrls: ['./parent-card.component.css']
 })
-export class StudentCardComponent implements OnInit {
+export class ParentCardComponent implements OnInit {
 
-  @Input() student: StudentInterface
+  @Input() parent: ParentsInterface
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   urlPicture = '';
@@ -25,7 +25,7 @@ export class StudentCardComponent implements OnInit {
   isMobile = false;
   poInfoOrientation: PoInfoOrientation = PoInfoOrientation.Horizontal
 
-  storageEmployee = "students"
+  storageParent = "parents"
 
   close: PoModalAction = {
     action: () => {
@@ -35,7 +35,7 @@ export class StudentCardComponent implements OnInit {
     danger: true
   };
 
-  constructor(private studentsService: StudentService
+  constructor(private parentsService: ParentsService
     , private storageService: StorageService
     , private poNotificationService: PoNotificationService
     , private deviceDetectorService: DeviceDetectorService
@@ -49,9 +49,9 @@ export class StudentCardComponent implements OnInit {
   }
 
   getAvatarImage(): void {
-    this.storageService.getImage(this.storageEmployee, this.student.id, '').then(
+    this.storageService.getImage(this.storageParent, this.parent.id, '').then(
       res => {
-        const imgProfile = res.items.filter(item => item.name.includes(this.student.id))
+        const imgProfile = res.items.filter(item => item.name.includes(this.parent.id))
         if (imgProfile.length > 0) {
           const url = getDownloadURL(imgProfile[0]);
           url.then(res => { this.urlPicture = res })
@@ -60,14 +60,14 @@ export class StudentCardComponent implements OnInit {
       .catch(error => console.error(error))
   }
 
-  viewEmployee() {
+  viewParent() {
 
   }
 
-  async deleteEmployee() {
+  async deleteParent() {
     if (window.confirm('Confirma Exclusão?')) {
       this.isLoading = true;
-      await this.studentsService.delete(this.student.id).then(
+      await this.parentsService.delete(this.parent.id).then(
         res => {
           this.deleteAvatar()
         }
@@ -81,7 +81,7 @@ export class StudentCardComponent implements OnInit {
   }
 
   deleteAvatar(): void {
-    this.storageService.deleteAvatar(this.storageEmployee, this.student.id).then(
+    this.storageService.deleteAvatar(this.storageParent, this.parent.id).then(
       res => {
         this.isLoading = false;
         this.poNotificationService.success('Registro Deletado com Sucesso');
@@ -94,14 +94,14 @@ export class StudentCardComponent implements OnInit {
     )
   }
 
-  editeEmployee(): void {
+  editeParent(): void {
     this.activeEditForm = true;
-    this.router.navigate([`/students/form/${this.student.id}`])
+    this.router.navigate([`/parents/form/${this.parent.id}`])
     this.poModal.open()
   }
 
   openForm(): void {
-    this.router.navigate([`/students/form/${this.student.id}`, { viewForm: true }])
+    this.router.navigate([`/parents/form/${this.parent.id}`, { viewForm: true }])
     this.viewForm = true;
     this.poModal.open()
   }

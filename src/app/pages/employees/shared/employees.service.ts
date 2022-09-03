@@ -1,16 +1,18 @@
-import { EmployeesInterface } from './employees.model';
-import { Injectable, Injector } from '@angular/core';
 import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
+import { EmployeesInterface } from './employees.model';
+import { Injectable } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesService extends BaseResourceFirebaseService<EmployeesInterface> {
+//extends BaseResourceFirebaseService<EmployeesInterface>
+//    super(injector, 'employees')
 
-  constructor(protected injector: Injector) {
-    super(injector, 'employees')
+export class EmployeesService extends BaseResourceFirebaseService<EmployeesInterface>{
+
+  constructor(protected override firestore: Firestore) {
+    super('employees', firestore)
   }
-
-
-
 }
