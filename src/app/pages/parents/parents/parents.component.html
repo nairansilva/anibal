@@ -1,4 +1,4 @@
-<po-page-default p-title="Cadastro de Colaboradores" [p-actions]="actions">
+<po-page-default p-title="Cadastro de Responsáveis" [p-actions]="actions">
   <form [formGroup]="reactiveForm">
     <div class="po-row">
       <po-input
@@ -17,5 +17,11 @@
     p-text="Carregando"
   >
   </po-loading-overlay>
+
+  <div *ngIf="!isLoading">
+    <div class="po-mt-1" *ngFor="let parent of parentsDisplayed">
+      <app-parent-card [parent]="parent"></app-parent-card>
+    </div>
+  </div>
 
 </po-page-default>

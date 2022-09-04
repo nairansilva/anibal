@@ -6,6 +6,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PoInfoOrientation, PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
 import { getDownloadURL } from '@angular/fire/storage';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 
 @Component({
   selector: 'app-employee-card',
@@ -14,7 +15,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 export class EmployeeCardComponent implements OnInit {
   @Input() employee: EmployeesInterface
-  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   urlPicture = '';
   widgetHeight = 250;
@@ -96,19 +96,16 @@ export class EmployeeCardComponent implements OnInit {
   editeEmployee(): void {
     this.activeEditForm = true;
     this.router.navigate([`/employees/form/${this.employee.id}`])
-    this.poModal.open()
   }
 
   openForm(): void {
     this.router.navigate([`/employees/form/${this.employee.id}`, { viewForm: true }])
     this.viewForm = true;
-    this.poModal.open()
   }
 
   receiveConfirmationForm(): void {
     this.activeEditForm = false;
     this.viewForm = false
-    this.poModal.close();
   }
 
 }

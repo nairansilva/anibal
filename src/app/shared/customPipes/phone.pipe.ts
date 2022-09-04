@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PhonePipe implements PipeTransform {
 
   transform(tel:string) {
-    console.log("Pipe")
     let foneFormatado = '';
     if (tel) {
       // Remove dígitos não numéricos

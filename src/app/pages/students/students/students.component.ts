@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { PoModalAction, PoModalComponent, PoTableAction } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { StudentInterface } from '../shared/student.model';
-import { debounceTime, finalize } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-students',
@@ -25,7 +25,6 @@ export class StudentsComponent implements OnInit {
     danger: true
   };
 
-  reactiveForm: FormGroup;
   students: StudentInterface[];
   studentsDisplayed: StudentInterface[];
 
@@ -45,7 +44,7 @@ export class StudentsComponent implements OnInit {
   ];
   constructor(private studentsService: StudentService, private fb: FormBuilder, private router: Router
   ) {
-    this.criaFormularioPesquisar();
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -55,7 +54,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit(): void {
     this.studentsService.getAll().subscribe(
       {
-        next: (res:StudentInterface[]) => {
+        next: (res: StudentInterface[]) => {
           this.isLoading = false;
           this.students = res;
           this.studentsDisplayed = this.students;
@@ -63,24 +62,14 @@ export class StudentsComponent implements OnInit {
 
       }
     )
-
-    this.subscription = this.reactiveForm.valueChanges.pipe(
-      debounceTime(500)
-    ).subscribe(
-      (res: any) => {
-        if (res.pesquisa.length > 0) {
-          this.studentsDisplayed = this.students.filter(studant => studant.name.includes(res.pesquisa))
-        } else {
-          this.studentsDisplayed = this.students
-        }
-      }
-    )
   }
 
-  criaFormularioPesquisar(): void {
-    this.reactiveForm = this.fb.group({
-      pesquisa: [''],
-    });
+  inputSearch(search: string): void {
+    if (search.length > 0) {
+      this.studentsDisplayed = this.students.filter(studant => studant.name.includes(search))
+    } else {
+      this.studentsDisplayed = this.students
+    }
   }
 
   formReceive() {

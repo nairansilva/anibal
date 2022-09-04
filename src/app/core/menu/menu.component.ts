@@ -44,7 +44,7 @@ export class MenuComponent implements OnInit {
         action: () => {
           this.router.navigate(['/students']);
         },
-        icon: 'po-icon-users',
+        icon: 'po-icon-like',
       },
       {
         label: 'Responsáveis',
@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit {
         action: () => {
           this.router.navigate(['/parents']);
         },
-        icon: 'po-icon-users',
+        icon: 'po-icon-eye',
       },
       {
         label: 'logout',

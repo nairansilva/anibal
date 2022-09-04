@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PoInfoOrientation, PoModalAction, PoModalComponent, PoNotificationService } from '@po-ui/ng-components';
 import { getDownloadURL } from 'firebase/storage';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 import { StorageService } from 'src/app/shared/service/storage.service';
 import { StudentInterface } from '../shared/student.model';
 import { StudentService } from '../shared/student.service';
@@ -15,7 +16,6 @@ import { StudentService } from '../shared/student.service';
 export class StudentCardComponent implements OnInit {
 
   @Input() student: StudentInterface
-  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   urlPicture = '';
   widgetHeight = 250;
@@ -40,6 +40,7 @@ export class StudentCardComponent implements OnInit {
     , private poNotificationService: PoNotificationService
     , private deviceDetectorService: DeviceDetectorService
     , private router: Router) {
+
     this.isMobile = this.deviceDetectorService.isMobile();
     this.isMobile ? this.widgetHeight = 350 : this.widgetHeight = 280;
   }
@@ -97,18 +98,15 @@ export class StudentCardComponent implements OnInit {
   editeEmployee(): void {
     this.activeEditForm = true;
     this.router.navigate([`/students/form/${this.student.id}`])
-    this.poModal.open()
   }
 
   openForm(): void {
     this.router.navigate([`/students/form/${this.student.id}`, { viewForm: true }])
     this.viewForm = true;
-    this.poModal.open()
   }
 
   receiveConfirmationForm(): void {
     this.activeEditForm = false;
     this.viewForm = false
-    this.poModal.close();
   }
 }

@@ -1,3 +1,4 @@
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PoModalAction, PoModalComponent, PoTableAction } from '@po-ui/ng-components';
@@ -54,16 +55,16 @@ export class ParentsComponent  implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    // this.parentsService.getAll().subscribe(
-    //   {
-    //     next: (res) => {
-    //       this.isLoading = false;
-    //       this.parents = res;
-    //       this.parentsDisplayed = this.parents;
-    //     }
+    this.parentsService.getAll().subscribe(
+      {
+        next: (res) => {
+          this.isLoading = false;
+          this.parents = res;
+          this.parentsDisplayed = this.parents;
+        }
 
-    //   }
-    // )
+      }
+    )
 
     this.subscription = this.reactiveForm.valueChanges.pipe(
       debounceTime(500)

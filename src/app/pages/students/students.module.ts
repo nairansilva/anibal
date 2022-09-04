@@ -1,3 +1,4 @@
+import { ParentListComponent } from './../parents/parent-list/parent-list.component';
 import { PictureEditModule } from './../../shared/components/picture-edit/pictureEdit/pictureEdit.module';
 import { PoComponentsModule } from '@po-ui/ng-components';
 import { NgModule } from '@angular/core';
@@ -7,6 +8,7 @@ import { StudentCardComponent } from './student-card/student-card.component';
 import { StudentFormComponent } from './student-form/student-form.component';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { StudentRoutingModule } from './students-routing.module';
+import { LinkParentsComponent } from './link-parents/link-parents.component';
 
 
 
@@ -14,7 +16,9 @@ import { StudentRoutingModule } from './students-routing.module';
   declarations: [
     StudentsComponent,
     StudentCardComponent,
-    StudentFormComponent
+    StudentFormComponent,
+    LinkParentsComponent,
+    ParentListComponent
   ],
   imports: [
     CommonModule,

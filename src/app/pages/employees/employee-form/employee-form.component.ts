@@ -1,3 +1,4 @@
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 import { StorageService } from './../../../shared/service/storage.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { EmployeesInterface } from './../shared/employees.model';
@@ -38,15 +39,13 @@ export class EmployeeFormComponent implements OnInit {
   public actions: Array<PoPageAction> = [{
     label: 'Salvar',
     action: () => this.inputEmployee(),
+    disabled: () => this.reactiveForm.invalid,
     icon: 'po-icon-plus'
   },
   ];
 
   private avatarPictureOk = false;
   private storageEmployee = 'employees'
-
-
-
 
   constructor(private ponotification: PoNotificationService
     , private employeesService: EmployeesService

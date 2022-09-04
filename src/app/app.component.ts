@@ -17,7 +17,6 @@ export class AppComponent {
 
     const user = teste.currentUser;
 
-    console.log(user)
     if(!localStorage.getItem('tokenAnibal')) {
       this.requestPermission();
     }

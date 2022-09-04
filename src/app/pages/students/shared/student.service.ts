@@ -1,15 +1,44 @@
-import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import { StudentInterface } from './student.model';
-import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
-
+import { Injectable } from '@angular/core';
+import { addDoc, collection, collectionData, deleteDoc, doc, DocumentData, DocumentReference, Firestore, getDoc, query, updateDoc, where } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService extends BaseResourceFirebaseService<StudentInterface>{
+export class StudentService{
 
-  constructor(protected override firestore: Firestore) {
-    super('studants', firestore)
+  collectionName = 'students'
+
+  constructor(private firestore:Firestore) {
+  }
+
+  getAll(filter: string = ''): Observable<StudentInterface[]> {
+    const placeRef = collection(this.firestore, this.collectionName)
+    const q = query(placeRef, where('name', '>=', ''))
+    return collectionData(q, { idField: 'id', }).pipe(
+    ) as Observable<StudentInterface[]>
+  }
+
+  getById(id: string): Promise<any> {
+    const placeRef = doc(this.firestore, this.collectionName, id)
+
+    return getDoc(placeRef)
+
+  }
+
+  post(objectInput: StudentInterface) {
+    const placeRef = collection(this.firestore, this.collectionName)
+    return addDoc(placeRef, objectInput)
+  }
+
+  put(objectInput: { [x: string]: any; }, id: string) {
+    const placeRef = doc(this.firestore, `${this.collectionName}/${id}`)
+    return updateDoc(placeRef, objectInput)
+  }
+
+  delete(id: string) {
+    const placeRef = doc(this.firestore, `${this.collectionName}/${id}`)
+    return deleteDoc(placeRef)
   }
 }

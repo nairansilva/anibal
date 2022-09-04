@@ -1,3 +1,4 @@
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 import { ParentsInterface } from './../shared/parents.model';
 import { ParentsService } from './../shared/parents.service';
 import { StorageService } from './../../../shared/service/storage.service';
@@ -38,15 +39,14 @@ export class ParentFormComponent implements OnInit {
   public actions: Array<PoPageAction> = [{
     label: 'Salvar',
     action: () => this.inputParent(),
+    disabled: () => this.reactiveForm.invalid,
     icon: 'po-icon-plus'
-  },
+  }
+
   ];
 
   private avatarPictureOk = false;
   private storageParent = 'parents'
-
-
-
 
   constructor(private ponotification: PoNotificationService
     , private parentsService: ParentsService

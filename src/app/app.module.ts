@@ -24,7 +24,7 @@ import { SplashScreenModule } from './shared/components/splash-screen/splash-scr
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     MenuModule,

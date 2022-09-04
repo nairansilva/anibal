@@ -34,8 +34,8 @@
         </po-info>
         <po-info
           p-label="Telefone"
-          p-value="{{ employee.phone }}"
           [p-orientation]="poInfoOrientation"
+          p-value="{{ employee.phone  | phone}}"
         >
         </po-info>
       </div>
@@ -61,7 +61,7 @@
       </po-info>
       <po-info
         p-label="Telefone"
-        p-value="{{ employee.phone }}"
+        p-value="{{ employee.phone | phone}}"
         [p-orientation]="poInfoOrientation"
       >
       </po-info>

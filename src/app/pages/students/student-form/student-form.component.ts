@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { StudentInterface } from '../shared/student.model';
 import { StudentService } from '../shared/student.service';
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 
 
 @Component({
@@ -38,16 +39,19 @@ export class StudentFormComponent implements OnInit {
   public isMobile = false;
   public actions: Array<PoPageAction> = [{
     label: 'Salvar',
-    action: () => this.inputEmployee(),
+    action: () => this.inputStudets(),
+    disabled: () => this.reactiveForm.invalid,
     icon: 'po-icon-plus'
   },
-  ];
+  {
+    label: 'Responsáveis',
+    action: () => this.linkParents(),
+    disabled: () => this.student?.id,
+    icon: 'po-icon-plus'
+  }];
 
   private avatarPictureOk = false;
   private storageEmployee = 'students'
-
-
-
 
   constructor(private ponotification: PoNotificationService
     , private studentsService: StudentService
@@ -57,7 +61,7 @@ export class StudentFormComponent implements OnInit {
     , private router: Router) {
 
     this.isMobile = this.deviceDetectorService.isMobile();
-    this.breadcrumb.items = this.breadcrumb.items.concat([{ label: 'Estudantees', link: '/students' }])
+    this.breadcrumb.items = this.breadcrumb.items.concat([{ label: 'Estudantes', link: '/students' }])
     this.viewForm = Boolean(this.route.snapshot.paramMap.get('viewForm'));
     this.id = this.route.snapshot.paramMap.get('id');
 
@@ -97,7 +101,6 @@ export class StudentFormComponent implements OnInit {
       })
       .catch(error => console.error(error))
   }
-
 
   editeForm(): void {
     this.reactiveForm.patchValue({
@@ -140,7 +143,8 @@ export class StudentFormComponent implements OnInit {
     this.poModal.close();
 
   }
-  async inputEmployee() {
+
+  async inputStudets() {
     if (!this.avatarPictureOk && !this.student) {
       this.ponotification.warning("Selecione uma imagem de para confirmar o cadastro")
       return
@@ -149,6 +153,8 @@ export class StudentFormComponent implements OnInit {
     if (!this.student) {
       await this.studentsService.post(this.reactiveForm.value).then(
         res => {
+          this.student = this.reactiveForm.value;
+          this.student.id = res.id;
           this.updateAvatarImage(res.id)
         }
       ).catch(error => {
@@ -188,13 +194,14 @@ export class StudentFormComponent implements OnInit {
   }
 
   closeForm(): void {
-    this.router.navigate(['/students'])
     this.avatarPictureOk = false;
     this.pictureStatus = "Nenhuma Foto Selecionada";
     this.pictureStatusColor = "color-07";
-    this.reactiveForm.reset();
+    // this.reactiveForm.reset();
     this.isLoading = false;
     this.registroSalvo.emit();
+    // this.router.navigate(['/students']) : this.router.navigate([`/students/${this.student.id}`])
+
   }
 
   createForm(): void {
@@ -212,5 +219,9 @@ export class StudentFormComponent implements OnInit {
 
   returnEmployees(): void {
     this.closeForm();
+  }
+
+  linkParents(): void {
+    this.router.navigate([`/students/${this.student.id}/link`]);
   }
 }

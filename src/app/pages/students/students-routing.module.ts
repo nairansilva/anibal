@@ -1,3 +1,4 @@
+import { LinkParentsComponent } from './link-parents/link-parents.component';
 import { StudentsComponent } from './students/students.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,6 +8,7 @@ const routes: Routes = [
   { path: '', component: StudentsComponent },
   { path: 'form', component: StudentFormComponent },
   { path: 'form/:id', component: StudentFormComponent },
+  { path: ':id/link', component: LinkParentsComponent },
 ];
 
 @NgModule({

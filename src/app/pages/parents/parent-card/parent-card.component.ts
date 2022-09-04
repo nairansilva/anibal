@@ -1,3 +1,4 @@
+import { BaseResourceFirebaseService } from 'src/app/shared/service/base-resource-firebase.service';
 import { ParentsService } from './../shared/parents.service';
 import { ParentsInterface } from './../shared/parents.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -15,7 +16,6 @@ import { StorageService } from 'src/app/shared/service/storage.service';
 export class ParentCardComponent implements OnInit {
 
   @Input() parent: ParentsInterface
-  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   urlPicture = '';
   widgetHeight = 250;
@@ -97,18 +97,15 @@ export class ParentCardComponent implements OnInit {
   editeParent(): void {
     this.activeEditForm = true;
     this.router.navigate([`/parents/form/${this.parent.id}`])
-    this.poModal.open()
   }
 
   openForm(): void {
     this.router.navigate([`/parents/form/${this.parent.id}`, { viewForm: true }])
     this.viewForm = true;
-    this.poModal.open()
   }
 
   receiveConfirmationForm(): void {
     this.activeEditForm = false;
     this.viewForm = false
-    this.poModal.close();
   }
 }

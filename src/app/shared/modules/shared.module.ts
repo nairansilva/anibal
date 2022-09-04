@@ -4,9 +4,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PhonePipe } from '../customPipes/phone.pipe';
 import { PoUiComponentsModule } from './po-ui-components.module';
+import { SearchComponent } from '../components/search/search.component';
 
 @NgModule({
-  declarations:[PhonePipe],
+  declarations:[PhonePipe,     SearchComponent,],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,7 +20,8 @@ import { PoUiComponentsModule } from './po-ui-components.module';
     FormsModule,
     ReactiveFormsModule,
     PoUiComponentsModule,
-    PhonePipe
+    PhonePipe,
+    SearchComponent
   ],
 })
 export class SharedModule {}

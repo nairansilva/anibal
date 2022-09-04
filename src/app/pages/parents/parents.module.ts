@@ -14,7 +14,7 @@ import { PictureEditModule } from 'src/app/shared/components/picture-edit/pictur
   declarations: [
     ParentsComponent,
     ParentCardComponent,
-    ParentFormComponent
+    ParentFormComponent,
   ],
   imports: [
     CommonModule,
