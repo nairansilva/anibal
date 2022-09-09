@@ -52,7 +52,7 @@ export class StudentsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.studentsService.getAll().subscribe(
+    this.subscription = this.studentsService.getAll().subscribe(
       {
         next: (res: StudentInterface[]) => {
           this.isLoading = false;

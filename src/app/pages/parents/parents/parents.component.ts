@@ -26,7 +26,6 @@ export class ParentsComponent  implements OnInit, OnDestroy {
     danger: true
   };
 
-  reactiveForm: FormGroup;
   parents: ParentsInterface[];
   parentsDisplayed: ParentsInterface[];
 
@@ -46,7 +45,6 @@ export class ParentsComponent  implements OnInit, OnDestroy {
   ];
   constructor(private parentsService: ParentsService, private fb: FormBuilder, private router: Router
   ) {
-    this.criaFormularioPesquisar();
   }
 
   ngOnDestroy(): void {
@@ -55,7 +53,7 @@ export class ParentsComponent  implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.parentsService.getAll().subscribe(
+    this.subscription = this.parentsService.getAll().subscribe(
       {
         next: (res) => {
           this.isLoading = false;
@@ -66,28 +64,19 @@ export class ParentsComponent  implements OnInit, OnDestroy {
       }
     )
 
-    this.subscription = this.reactiveForm.valueChanges.pipe(
-      debounceTime(500)
-    ).subscribe(
-      res => {
-        if (res.pesquisa.length > 0) {
-          this.parentsDisplayed = this.parents.filter(parent => parent.name.includes(res.pesquisa))
-        } else {
-          this.parentsDisplayed = this.parents
-        }
-      }
-    )
-  }
-
-  criaFormularioPesquisar(): void {
-    this.reactiveForm = this.fb.group({
-      pesquisa: [''],
-    });
   }
 
   recebeFormulario() {
     this.includeParent = false;
     this.poModal.close()
+  }
+
+  inputSearch(search: string): void {
+    if (search.length > 0) {
+      this.parentsDisplayed = this.parents.filter(parent => parent.name.includes(search))
+    } else {
+      this.parentsDisplayed = this.parents
+    }
   }
 
   newParent(): void {

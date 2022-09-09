@@ -26,7 +26,6 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     danger: true
   };
 
-  reactiveForm: FormGroup;
   employees: EmployeesInterface[];
   employeesDisplayed: EmployeesInterface[];
 
@@ -44,9 +43,8 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     }
 
   ];
-  constructor(private employeesService: EmployeesService, private fb: FormBuilder, private router: Router
+  constructor(private employeesService: EmployeesService, private router: Router
   ) {
-    this.criaFormularioPesquisar();
   }
 
   ngOnDestroy(): void {
@@ -55,7 +53,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.employeesService.getAll().subscribe(
+    this.subscription = this.employeesService.getAll().subscribe(
       {
         next: (res) => {
           this.isLoading = false;
@@ -65,25 +63,8 @@ export class EmployeesComponent implements OnInit, OnDestroy {
 
       }
     )
-
-    this.subscription = this.reactiveForm.valueChanges.pipe(
-      debounceTime(500)
-    ).subscribe(
-      res => {
-        if (res.pesquisa.length > 0) {
-          this.employeesDisplayed = this.employees.filter(employee => employee.name.includes(res.pesquisa))
-        } else {
-          this.employeesDisplayed = this.employees
-        }
-      }
-    )
   }
 
-  criaFormularioPesquisar(): void {
-    this.reactiveForm = this.fb.group({
-      pesquisa: [''],
-    });
-  }
 
   recebeFormulario() {
     this.includeEmployee = false;
@@ -94,6 +75,14 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     this.includeEmployee = true;
     this.router.navigate(['/employees/form'])
     this.poModal.open();
+  }
+
+  inputSearch(search: string): void {
+    if (search.length > 0) {
+      this.employeesDisplayed = this.employees.filter(employee => employee.name.includes(search))
+    } else {
+      this.employeesDisplayed = this.employees
+    }
   }
 
 }

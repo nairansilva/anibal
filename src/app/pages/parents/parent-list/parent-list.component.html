@@ -1,1 +1,29 @@
-<p>parent-list works!</p>
+<po-tabs>
+  <po-tab p-label="Responsáveis Cadastrados" [p-active]="true">
+    <po-list-view p-property-title="name" [p-items]="studentParents">
+      <ng-template p-list-view-content-template let-item>
+        <div class="po-row">
+          <po-info
+            class="po-md-12"
+            p-label="Email"
+            p-value="Testando"
+          ></po-info>
+        </div>
+      </ng-template>
+    </po-list-view>
+  </po-tab>
+  <po-tab p-label="Todos os Responsáveis">
+    <app-search></app-search>
+    <po-list-view p-property-title="name" [p-items]="allParents" [p-actions]="actions">
+      <ng-template p-list-view-content-template let-item>
+        <div class="po-row">
+          <po-info
+            class="po-md-12"
+            p-label="Nome:"
+            p-value={{item.name}}
+          ></po-info>
+        </div>
+      </ng-template>
+    </po-list-view>
+  </po-tab>
+</po-tabs>

@@ -1,42 +1,39 @@
 import { Injectable } from '@angular/core';
-import { ParentsInterface } from './parents.model';
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, getDoc, query, updateDoc, where } from '@angular/fire/firestore';
-import { Observable, from, filter, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { FilterFirebaseInterface } from 'src/app/shared/model/filterFirebase.interface';
+import { LinkParentInterface } from './link-parents.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParentsService{
+export class LinkParentsService {
 
-  collectionName = 'parents'
+  collectionName = 'studentxparent'
 
-  constructor(private firestore:Firestore) {
+  constructor(private firestore: Firestore) {
   }
 
-  getAll(filter: string = ''): Observable<ParentsInterface[]> {
+  getAll(filter: FilterFirebaseInterface): Observable<LinkParentInterface[]> {
     const placeRef = collection(this.firestore, this.collectionName)
-    const q = query(placeRef, where('name', '>=', ''))
-    return collectionData(q, { idField: 'id', }).pipe(
-    ) as Observable<ParentsInterface[]>
+    if (filter) {
+      const q = query(placeRef, where(`${filter.field}`, `${filter.operator}`, `${filter.value}`))
+      return collectionData(q, { idField: 'id', }).pipe(
+      ) as Observable<LinkParentInterface[]>
+    } else {
+      return collectionData(placeRef, { idField: 'id', }).pipe(
+      ) as Observable<LinkParentInterface[]>
+    }
   }
 
   getById(id: string): Promise<any> {
     const placeRef = doc(this.firestore, this.collectionName, id)
+
     return getDoc(placeRef)
 
   }
 
-  getUserEventSummary(userId:string) {
-    const placeRef = doc(this.firestore, this.collectionName, userId)
-    return from(getDoc(placeRef)).pipe(
-      filter((docSnap) => docSnap.exists()),
-      map(docSnap => docSnap.data())
-    );
-  }
-
-
-
-  post(objectInput: ParentsInterface) {
+  post(objectInput: LinkParentInterface) {
     const placeRef = collection(this.firestore, this.collectionName)
     return addDoc(placeRef, objectInput)
   }
@@ -50,6 +47,4 @@ export class ParentsService{
     const placeRef = doc(this.firestore, `${this.collectionName}/${id}`)
     return deleteDoc(placeRef)
   }
-
-
 }
